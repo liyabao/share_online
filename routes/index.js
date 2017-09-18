@@ -7,6 +7,13 @@ router.use(session({ secret: 'dir' }));
 json = [];
 var path="./";
 
+// function aa(hash,index=0){
+//   if(hash.children){
+//     index+=1;
+//     var bb = aa(hash.children[0],index);
+//   }
+//   return index;
+// }
 function read(path)
 {
 fs.readdir('./', function (err, files) {
@@ -15,14 +22,18 @@ fs.readdir('./', function (err, files) {
   }
   else {
     files.forEach(function (files) {
-      json.push({name:files,children:{name:"123"}}); 
+      // json.push({name:files,children:[{name:""}]}); 
+      // for(var i=0;i<1;i++)
+      // {
+      // a = {name:files,children:[]};
+      // a.children=[a];
+      // }
+      a = {name:files,children:[]};
+      a.children=[a];
+      json.push(a);
       console.log(files);
     });
-    console.log(files);
-    // for(var i=0;i<files.length;i++)
-    //   {
-
-    //   }
+    console.log(json);
   }
 })}
 read(path);
