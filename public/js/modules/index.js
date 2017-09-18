@@ -6,21 +6,25 @@ layui.define(['tree'], function (exports) {
         nodes: [
             {
                 name: '父节点1',
-                children: [{
-                    name: '子节点11'
-                }, {
-                    name: '子节点12'
-                }]
-            },
+                children:
+                [
+                    {
+                        name: '子节点11'
+                    },
+                    {
+                        name: '子节点12'
+                    }
+                ]
+            }, 
             {
                 name: '父节点2',
                 children: [
                     {
-                    name: '子节点21'
-                }, {
-                    name: '子节点22'
-                }
-            ]
+                        name: '子节点21'
+                    }, {
+                        name: '子节点22'
+                    }
+                ]
             }
         ]
     })
