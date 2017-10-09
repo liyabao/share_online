@@ -44,11 +44,26 @@
             height: 100%;
             float: left;
         }
-        /* #demo li a
+        #demo{
+            /* display: block; */
+        }
+        #demo  li i
         {
             float: left;
             
-        } */
+        }
+        #demo ul li a 
+        {
+            /* display: inline-block; */
+            /* float: left; */
+            
+        }
+        .gun
+        {
+            /* height: 100%;
+            width: 100%; */
+            overflow:auto;
+        }
     </style>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/index.js"></script>
@@ -65,7 +80,9 @@
     <div class="dir">
         <div style="text-align:center; height:5%;width:100%;"><strong>目录</strong></div>
         <div style="text-align:center; height:95%;width:100%;">
-            <div><ul id="demo"></ul></div>
+            <div class="gun">
+                <ul id="demo"></ul>
+            </div>
             
 
             <ul id="detailed_dir" style="color:black">
@@ -74,7 +91,7 @@
     </div>
     <div class="video"  >
         <video controls="controls" autoplay="autoplay"  style="width:100%;height:100%">
-            <!-- <source src="11.mp3" type="video/ogg" /> -->
+            <!-- <source src="11" type="video/ogg" /> -->
             <!-- <source src="movie.mp4" type="video/mp4"/> -->
         </video>
     </div>

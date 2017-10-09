@@ -3,90 +3,77 @@ var router = express.Router();
 var fs = require('fs');
 var session = require('express-session');
 var dir = require('../model/dir');
-router.use(session({ secret: 'dir' }));
-json = [];
+// router.use(session({ secret: 'dir' }));
 var path="./";
+var filesList = [];
+var targetObj = {};
 
-// function aa(hash,index=0){
-//   if(hash.children){
-//     index+=1;
-//     var bb = aa(hash.children[0],index);
-//   }
-//   return index;
-// }
-function read(path)
+function geFileList(path)
 {
-fs.readdir('./', function (err, files) {
-  if (err) {
-    console.log(err);
-  }
-  else {
-    files.forEach(function (files) {
-      // json.push({name:files,children:[{name:""}]}); 
-      // for(var i=0;i<1;i++)
-      // {
-      // a = {name:files,children:[]};
-      // a.children=[a];
-      // }
-      a = {name:files,children:[]};
-      a.children=[a];
-      json.push(a);
-      console.log(files);
-    });
-    console.log(json);
-  }
-})}
-read(path);
+   readFile(path,filesList,targetObj);
+   return filesList;
+}
 
-// for(var i=0;i<json.length;i++)
-//     {
-//       json.push(json[i]);
-//     }
+//遍历读取文件
+function readFile(path,filesList,targetObj)
+{
+   files = fs.readdirSync(path);//需要用到同步读取
+   files.forEach(walk);
+   function walk(file)
+   {  
+        states = fs.statSync(path+'/'+file); 
+        if(states.isDirectory())
+        {
+            var item ;
+            if(targetObj["children"])
+            {
+                item = {name:file,children:[]};
+                targetObj["children"].push(item);
+            }
+            else
+            {
+               item = {name:file,children:[]};
+               filesList.push(item);
+            }
+
+            readFile(path+'/'+file,filesList,item);
+        }
+        else
+        {   
+            //创建一个对象保存信息
+            var obj = new Object();
+            // obj.size = states.size;//文件大小，以字节为单位
+            // obj.name = file;//文件名
+            obj.path = path+'/'+file; //文件绝对路径
+
+            if(targetObj["children"])
+            {
+               var item = {name:file,value:obj.path}
+               targetObj["children"].push(item);
+            }
+            else
+            {
+                var item = {name:file,value:obj.path};
+                filesList.push(item);
+            }
+        }     
+    }
+}
+
+geFileList(path);
 
 
 
-// var path = "./routes";
-
-// function explorer(path) {
-//   fs.readdir(path, function (err, files) {
-//     if (err) {
-//       console.log("error:\n" + err);
-//       return;
-//     }
-
-//     files.forEach(function (file) {
-//       fs.stat(path+"\\"+file,function(err,stat){
-//       if(err) {
-//               console.log(err);
-//               return;
-//             }
-
-//       if (stat.isDirectory()) {
-//         console.log(path + "\\" + file + "\\");
-//         explorer(path + "\\" + file);
-//       } else {
-//         console.log(path + "\\" + file);
-//       }
-
-//     });
-//   });
-
-// });    
-// }
-
-// explorer(path);
-
-// console.log(json);
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index');
 })
 router.get('/index', function (req, res, next) {
-  res.json(json);
+  res.json(filesList);
 });
-// router.get('11.mp3',function(req,res,next){
-//   res.send('11');
-// })
+router.get('11',function(req,res,next){
+  res.send('11.mp3');
+})
 
 
 
